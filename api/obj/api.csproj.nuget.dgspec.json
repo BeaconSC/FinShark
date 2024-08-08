@@ -1,26 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "/Users/beaconc/Desktop/FinShark/FinShark/api/api.csproj": {}
+    "C:\\Project\\FinShark\\api\\api.csproj": {}
   },
   "projects": {
-    "/Users/beaconc/Desktop/FinShark/FinShark/api/api.csproj": {
+    "C:\\Project\\FinShark\\api\\api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/beaconc/Desktop/FinShark/FinShark/api/api.csproj",
+        "projectUniqueName": "C:\\Project\\FinShark\\api\\api.csproj",
         "projectName": "api",
-        "projectPath": "/Users/beaconc/Desktop/FinShark/FinShark/api/api.csproj",
-        "packagesPath": "/Users/beaconc/.nuget/packages/",
-        "outputPath": "/Users/beaconc/Desktop/FinShark/FinShark/api/obj/",
+        "projectPath": "C:\\Project\\FinShark\\api\\api.csproj",
+        "packagesPath": "C:\\Users\\beaco\\.nuget\\packages\\",
+        "outputPath": "C:\\Project\\FinShark\\api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/beaconc/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\beaco\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/library-packs": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -46,9 +48,11 @@
           "dependencies": {
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
-              "version": "[8.0.6, )"
+              "version": "[8.0.7, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.0, )"
             },
@@ -86,7 +90,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
