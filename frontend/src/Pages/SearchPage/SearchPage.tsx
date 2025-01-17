@@ -1,10 +1,13 @@
-import React, {useState, ChangeEvent, SyntheticEvent} from 'react'
+import React, {useState, ChangeEvent, SyntheticEvent, useEffect} from 'react'
 import Navbar from '../../Components/Navbar/Navbar'
 import Search from '../../Components/Search/Search'
 import { CompanySearch } from '../../company';
 import ListPortfolio from '../../Components/Portfolio/ListPortfolio/ListPortfolio';
 import CardList from '../../Components/CardList/CardList';
 import { searchCompanies } from '../../api';
+import { PortfolioGet } from '../../Models/Portfolio';
+import { portfolioAddAPI, portfolioDeleteAPI, portfolioGetAPI } from '../../Services/PortfolioService';
+import { toast } from 'react-toastify';
 
 interface Props {}
 
@@ -15,12 +18,27 @@ const SearchPage = (props: Props) => {
   const [serverError, setServerError] = useState<string>("");
 
   // set the state for saved company info in portfolio
-  const [portfolioValues, setPortfolioValues] = useState<string[]>([]);
+  const [portfolioValues, setPortfolioValues] = useState<PortfolioGet[] | null>([]);
 
   const handleSearchChange = (e : ChangeEvent<HTMLInputElement>) =>{
       setSearch(e.target.value);
       console.log(e);
-  }
+  };
+
+  useEffect(() => {
+    getPortfolio();
+  }, [])
+
+  const getPortfolio = () => {
+    portfolioGetAPI()
+    .then((res) => {
+      if(res?.data) {
+        setPortfolioValues(res?.data);
+      }
+    }).catch((e) => {
+      toast.warning("Could not get portfolio values!");
+    })
+  };
 
   // SyntheticEvent could be used in almost all the evnets
   const onSearchSubmit = async (e : SyntheticEvent) =>{
@@ -38,25 +56,32 @@ const SearchPage = (props: Props) => {
   // Create Card on Portfolio
   const onPortfolioCreate = (e: any) => {
     e.preventDefault();
-    const exists = portfolioValues.find((value) => value === e.target[0].value);
-    if (exists) return;
-    // change the value of portfolioValue
-    const updatedPortfolio = [...portfolioValues,e.target[0].value];
-    setPortfolioValues(updatedPortfolio);
+    portfolioAddAPI(e.target[0].value)
+    .then((res) => {
+      if(res?.status === 204) {
+        toast.success("Stock added to portfolio!");
+        getPortfolio();
+      }
+    }).catch((e) => {
+      toast.warning("Could not create portfolio Item!");
+    })
   }
 
   const onPortfolioDelete = (e: any) => {
     e.preventDefault();
-    const removed = portfolioValues.filter((value)=>{
-      return value != e.target[0].value;
-    });
-    setPortfolioValues(removed);
+    portfolioDeleteAPI(e.target[0].value)
+    .then((res) => {
+      if(res?.status === 200){
+        toast.success("Stock deleted from portfolio!");
+        getPortfolio();
+      }
+    })
   }
   return (
     <div>
         <Search onSearchSubmit={onSearchSubmit} search={search} handleSearchChange={handleSearchChange}/>
         {serverError && <h1>{serverError}</h1>}
-        <ListPortfolio portfolioValues = {portfolioValues} onPortfolioDelete ={onPortfolioDelete}/>
+        <ListPortfolio portfolioValues = {portfolioValues!} onPortfolioDelete ={onPortfolioDelete}/>
         <CardList searchResults={searchResult} onPortfolioCreate={onPortfolioCreate}/>
     </div>
   )
