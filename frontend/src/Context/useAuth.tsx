@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { UserProfile } from "../Models/User"
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { loginAPI, registerAPI } from "../Services/AuthService";
 import { toast } from "react-toastify";
 import React from "react";
@@ -25,13 +25,13 @@ export const UserProvider = ({ children }: Props) => {
     const [user, setUser] = useState<UserProfile | null>(null);
     const [isReady, setIsReady] = useState(false);
 
-    useEffect(() =>{
+    useEffect(() => {
         const user = localStorage.getItem("user");
         const token = localStorage.getItem("token");
         if(user && token) {
             setUser(JSON.parse(user));
             setToken(token);
-            axios.defaults.headers.common["Authorization"] = "Bearer" + token;
+            axios.defaults.headers.common["Authorization"] = "Bearer " + token;
         }
         setIsReady(true);
     },[]);
@@ -99,3 +99,4 @@ export const UserProvider = ({ children }: Props) => {
 };
 
 export const useAuth = () => React.useContext(UserContext);
+
